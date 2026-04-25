@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Kassenabrechnung</title>
+  <style>
+    body { font-family: Arial; max-width: 700px; margin: 40px auto; }
+    input { width: 100%; padding: 8px; margin-bottom: 10px; }
+    button { padding: 10px; width: 100%; }
+    .box { background: #f5f5f5; padding: 20px; border-radius: 10px; }
+    .result { margin-top: 20px; }
+  </style>
+</head>
+<body>
+
+<div class="box">
+  <h2>Kassenabrechnung</h2>
+
+  <h3>Umsatz</h3>
+  <input id="umsatz" placeholder="Umsatz">
+  <input id="karte" placeholder="Karte">
+  <input id="twint" placeholder="Twint">
+  <input id="storno" placeholder="Storno">
+
+  <h3>Kasse</h3>
+  <input id="anfang" placeholder="Kasse Anfang">
+  <input id="ende" placeholder="Kasse Ende">
+
+  <h3>Trinkgeld</h3>
+  <input id="tipsCard" placeholder="Trinkgeld Karte">
+  <input id="tipsCash" placeholder="Trinkgeld Bar">
+
+  <button onclick="calc()">Berechnen</button>
+
+  <div class="result" id="output"></div>
+</div>
+
+<script>
+function calc() {
+  const umsatz = +document.getElementById('umsatz').value || 0;
+  const karte = +document.getElementById('karte').value || 0;
+  const twint = +document.getElementById('twint').value || 0;
+  const storno = +document.getElementById('storno').value || 0;
+
+  const anfang = +document.getElementById('anfang').value || 0;
+  const ende = +document.getElementById('ende').value || 0;
+
+  const tipsCard = +document.getElementById('tipsCard').value || 0;
+  const tipsCash = +document.getElementById('tipsCash').value || 0;
+
+  const soll = umsatz - karte - twint - storno;
+  const ist = ende - anfang;
+  const diff = ist - soll;
+
+  const tipsTotal = tipsCard + tipsCash;
+  const front = tipsTotal * 0.65;
+  const kitchen = tipsTotal * 0.35;
+
+  document.getElementById('output').innerHTML = `
+    <h3>Resultate</h3>
+    Soll Bargeld: <b>${soll.toFixed(2)}</b><br>
+    Ist Bargeld: <b>${ist.toFixed(2)}</b><br>
+    Differenz: <b>${diff.toFixed(2)}</b><br><br>
+
+    Trinkgeld Total: <b>${tipsTotal.toFixed(2)}</b><br>
+    Front (65%): <b>${front.toFixed(2)}</b><br>
+    Küche (35%): <b>${kitchen.toFixed(2)}</b>
+  `;
+}
+</script>
+
+</body>
+</html>
